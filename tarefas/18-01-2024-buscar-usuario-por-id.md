@@ -43,7 +43,6 @@ Response: Um único objeto usuário
         "updated_at": null
     },
 ]
-```
 
 HTTP Status:
 
@@ -95,8 +94,6 @@ Request:
         "created_at": "valor_de_data_valido",
         "updated_at": null
     },
-```
-
 
 Utilize a documentação do Express para aprender a consumir esses parâmetros: http://expressjs.com/en/guide/routing.html#route-parameters
 
