@@ -11,8 +11,8 @@ export class Usuario {
     created_at
     updated_at
 
-    constructor(id, nome, idade, genero){
-
+    constructor({id, nome, idade, genero}){
+        console.log("Id que será utilizado", id)
         this.id = id ? id : randomUUID()
         this.nome = nome
         this.idade = idade

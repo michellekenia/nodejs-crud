@@ -1,4 +1,4 @@
-import express from 'express' 
+import express, { request } from 'express' 
 import {Usuario} from './Usuario.js'
 
 const PORT = 3000
@@ -9,11 +9,11 @@ server.use(express.json())
 
 //Banco de dados em memoria 
 const bancoDados = [
-    new Usuario("5f1f987d-6acc-4ff1-9aec-d50de8e1382c", 'Michelle', 31, 'Mulher'), 
-    new Usuario("5c358a37-bc56-45ff-a6e4-20099b4e773e", 'Michelle K', 31, 'Mulher'), 
-    new Usuario("75910b48-9d06-46d0-a4fa-caf7bec29e75",'Michelle S', 31, 'Mulher'), 
-    new Usuario(undefined,'Kenia', 31, 'Mulher'), 
-    new Usuario(null, "Kenia M", 31, "Mulher")
+    new Usuario({id:"5f1f987d-6acc-4ff1-9aec-d50de8e1382c", nome:'Michelle', idade:31, genero:'Mulher'}), 
+    new Usuario({id:"5c358a37-bc56-45ff-a6e4-20099b4e773e", nome:'Michelle K', idade:31,genero:'Mulher'}), 
+    new Usuario({id:"75910b48-9d06-46d0-a4fa-caf7bec29e75", nome:'Michelle S', idade:31, genero:'Mulher'}), 
+    new Usuario({nome:'Kenia', idade:31, genero:'Mulher'}), 
+    new Usuario({nome:"Kenia M", idade:31, genero:"Mulher"})
 ]
 
 //Rota que busca o banco de dados com todos os elementos 
@@ -46,16 +46,33 @@ response.status(200).json(bancoDados[usuarioEncontrado])
 //Rota que cria um usuario novo e inclui no banco de dados  
 server.post("/usuarios/cadastrar", function(request, response){
 
-    const {id, name, idade, genero, created_at, updated_at} = request.body
-    console.log("Dados recebidos", id, name, idade, genero, created_at, updated_at)
+    const {name, idade, genero} = request.body
+    console.log("Dados recebidos", name, idade, genero)
 
-    const novoUsuario = {id, name, idade, genero, created_at, updated_at}
+    const novoUsuario = new Usuario({nome: name, idade: idade, genero: genero})
+    console.log("Novo usuario criado", novoUsuario)
     bancoDados.push(novoUsuario)
     
    response.status(201).json(novoUsuario)
 })
 
+server.put("/usuarios/atualizar/:idUsuario", function(request, response){
+    const {idUsuario} = request.params
+    const {name, idade, genero} = request.body
+    console.log("Dados recebidos", name, idade, genero)
 
+    const indiceUsuario = bancoDados.findIndex(usuario => usuario.id === idUsuario)
+    
+    // const usuarioAtualizado = {id, name, idade, genero, created_at, updated_at}
+    const usuario =  bancoDados[indiceUsuario] 
+    usuario.nome = name
+    usuario.idade = idade
+    usuario.genero = genero
+    
 
+    response.status(200).json(usuario)
+
+    })
+   
 
 server.listen(PORT, ()=> console.log("Servidor rodando com sucesso."))
