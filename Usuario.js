@@ -7,26 +7,18 @@ export class Usuario {
     id 
     nome 
     idade
-    genero 
+    cidade 
     created_at
     updated_at
 
-    constructor({id, nome, idade, genero}){
+    constructor({id, nome, idade, cidade}){
         console.log("Id que será utilizado", id)
         this.id = id ? id : randomUUID()
         this.nome = nome
         this.idade = idade
-        this.genero = genero
+        this.cidade = cidade
         this.created_at = new Date().toISOString()
         this.updated_at = null
     }
 
 }
-
-// module.exports = Usuario
-
-// function main(){
-//     const user = new Usuario('Michelle', 31, 'Mulher')
-//     console.log("Primeiro usuario", user)
-// }
-// main()
